@@ -23,8 +23,7 @@ class MealItem extends StatelessWidget {
       shape: RoundedRectangleBorder(
         borderRadius: BorderRadius.circular(8),
       ),
-      clipBehavior:
-          Clip.hardEdge, // forces card child to take same shape as card shape
+      clipBehavior: Clip.hardEdge, // forces card child to take same shape as card shape
       elevation: 2, // z-index shadow control
       child: InkWell(
         onTap: () => onSelectMeal(meal),

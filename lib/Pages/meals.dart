@@ -4,9 +4,13 @@ import 'package:meals/services/models/meal.dart';
 import 'package:meals/widgets/meal_item.dart';
 
 class MealsScreen extends StatelessWidget {
-  const MealsScreen({super.key, required this.title, required this.meals});
+  const MealsScreen({
+    super.key, 
+    this.title, 
+    required this.meals
+  });
 
-  final String title;
+  final String? title;
   final List<Meal> meals;
 
   void _selectedMeal(BuildContext context, Meal meal) {
@@ -42,15 +46,17 @@ class MealsScreen extends StatelessWidget {
       content = ListView.builder(
         itemCount: meals.length,
         itemBuilder: (ctx, index) => MealItem(
-            meal: meals[index],
-            onSelectMeal: (meal) => _selectedMeal(context, meal),
-          ),
+          meal: meals[index],
+          onSelectMeal: (meal) => _selectedMeal(context, meal),
+        ),
       );
     }
 
+    if (title == null) return content;
+
     return Scaffold(
       appBar: AppBar(
-        title: Text(title),
+        title: Text(title!),
       ),
       body: content,
     );

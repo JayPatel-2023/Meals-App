@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
-import 'package:meals/Pages/categories.dart';
+
+import 'package:meals/Pages/tabs.dart';
 import 'package:meals/utils/styles.dart';
 
 void main() {
@@ -14,7 +15,7 @@ class App extends StatelessWidget {
     return MaterialApp(
       debugShowCheckedModeBanner: false,
       theme: theme,
-      home: const CategoriesScreen(),
+      home: const TabsScreen(),
     );
   }
 }
