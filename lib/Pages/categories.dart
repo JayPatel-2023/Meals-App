@@ -1,10 +1,22 @@
 import 'package:flutter/material.dart';
+import 'package:meals/Pages/meals.dart';
 
 import 'package:meals/services/data/dummy_data.dart';
 import 'package:meals/widgets/category_grid_item.dart';
 
 class CategoriesScreen extends StatelessWidget {
   const CategoriesScreen({super.key});
+
+  void _selectCategory(BuildContext context) {
+    Navigator.of(context).push(
+      MaterialPageRoute(
+        builder: (ctx) => const MealsScreen(
+          title: 'ccs',
+          meals: []
+        )
+      )
+    );  // Navigator.push(context,route)
+  }
 
   @override
   Widget build(BuildContext context) {
@@ -15,16 +27,16 @@ class CategoriesScreen extends StatelessWidget {
       body: GridView(
         padding: const EdgeInsets.all(24),
         gridDelegate: const SliverGridDelegateWithFixedCrossAxisCount(
-          crossAxisCount: 2,      // finalise the no. of columns in each row
-          childAspectRatio: 3/2,
-          crossAxisSpacing: 20,   // spacing between the columns
-          mainAxisSpacing: 20     // spacing between two row 
-        ),
-       children: [
+            crossAxisCount: 2, // finalise the no. of columns in each row
+            childAspectRatio: 3 / 2,
+            crossAxisSpacing: 20, // spacing between the columns
+            mainAxisSpacing: 20 // spacing between two row
+            ),
+        children: [
           // availableCategories.map((category) => CategoryGridItem(category : category)).toList()
           for (final category in availableCategories)
-            CategoryGridItem(category: category)
-       ],
+            CategoryGridItem(category: category,onSelectCategory: () => _selectCategory(context) )
+        ],
       ),
     );
   }
