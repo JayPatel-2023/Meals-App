@@ -16,9 +16,7 @@ class MealsScreen extends StatelessWidget {
   void _selectedMeal(BuildContext context, Meal meal) {
     Navigator.of(context).push(
       MaterialPageRoute(
-        builder: (ctx) => MealDetailsScareen(
-          meal: meal,
-          ),
+        builder: (ctx) => MealDetailsScareen(meal: meal),
         ),
     );
   }
