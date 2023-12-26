@@ -4,6 +4,7 @@ import 'package:meals/Pages/categories.dart';
 import 'package:meals/Pages/filters.dart';
 import 'package:meals/Pages/meals.dart';
 import 'package:meals/services/models/meal.dart';
+import 'package:meals/services/riverpod/favorites_provider.dart';
 import 'package:meals/services/riverpod/meals_provider.dart';
 import 'package:meals/widgets/main_drawer.dart';
 
@@ -23,30 +24,28 @@ class TabsScreen extends ConsumerStatefulWidget {
 
 class _TabsScreenState extends ConsumerState<TabsScreen> {
   int _selectedPageIndex = 0;
-  final List<Meal> _favoriteMeals = [];
+  // final List<Meal> _favoriteMeals = [];
   Map<Filter, bool> _selectedFilters = kInitialFilters;
 
-  void _showInfoMessage(String message) {
-    ScaffoldMessenger.of(context).clearSnackBars();
-    ScaffoldMessenger.of(context).showSnackBar(
-      SnackBar(content: Text(message)),
-    );
-  }
+  // void _showInfoMessage(String message) {
+  //   ScaffoldMessenger.of(context).clearSnackBars();
+  //   ScaffoldMessenger.of(context).showSnackBar(SnackBar(content: Text('s')));
+  // }
 
-  void _toggleMealFavoriteStatus(Meal meal) {
-    final isExisting = _favoriteMeals.contains(meal);
-    if (isExisting) {
-      setState(() {
-        _favoriteMeals.remove(meal);
-      });
-      _showInfoMessage('Meal is no longer a favorite.');
-    } else {
-      setState(() {
-        _favoriteMeals.add(meal);
-      });
-      _showInfoMessage('Marked as a favorite!');
-    }
-  }
+  // void _toggleMealFavoriteStatus(Meal meal) {
+  //   final isExisting = _favoriteMeals.contains(meal);
+  //   if (isExisting) {
+  //     setState(() {
+  //       _favoriteMeals.remove(meal);
+  //     });
+  //     _showInfoMessage('Meal is no longer a favorite.');
+  //   } else {
+  //     setState(() {
+  //       _favoriteMeals.add(meal);
+  //     });
+  //     _showInfoMessage('Marked as a favorite!');
+  //   }
+  // }
 
   void _selectPage(int index) {
     setState(() {
@@ -73,22 +72,28 @@ class _TabsScreenState extends ConsumerState<TabsScreen> {
   Widget build(BuildContext context) {
     final meals = ref.watch(mealsProvider);
     final availableMeals = meals.where((meal) {
-      if (_selectedFilters[Filter.glutenFree]! && !meal.isGlutenFree) return false;
-      if (_selectedFilters[Filter.lactoseFree]! && !meal.isLactoseFree) return false;
-      if (_selectedFilters[Filter.vegetarian]! && !meal.isVegetarian) return false;
+      if (_selectedFilters[Filter.glutenFree]! && !meal.isGlutenFree)
+        return false;
+      if (_selectedFilters[Filter.lactoseFree]! && !meal.isLactoseFree)
+        return false;
+      if (_selectedFilters[Filter.vegetarian]! && !meal.isVegetarian)
+        return false;
       if (_selectedFilters[Filter.vegan]! && !meal.isVegan) return false;
 
       return true;
     }).toList();
 
     Widget activePage = CategoriesScreen(
-        onToggleFavorites: _toggleMealFavoriteStatus,
+        // onToggleFavorites: _toggleMealFavoriteStatus,
         availableMeals: availableMeals);
     var activePageTitle = 'Categories';
 
     if (_selectedPageIndex == 1) {
+      final favoriteMeals = ref.watch(favoriteMealsProvider);
       activePage = MealsScreen(
-          meals: _favoriteMeals, onToggleFavorites: _toggleMealFavoriteStatus);
+          meals: favoriteMeals, 
+          // onToggleFavorites: _toggleMealFavoriteStatus
+        );
       activePageTitle = 'Favorites';
     }
 
