@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
-import 'package:meals/Pages/meals.dart';
 
+import 'package:meals/Pages/meals.dart';
 import 'package:meals/services/data/dummy_data.dart';
 import 'package:meals/services/models/category.dart';
 import 'package:meals/services/models/meal.dart';
@@ -15,7 +15,6 @@ class CategoriesScreen extends StatelessWidget {
     final filteredMeals = availableMeals
         .where((meal) => meal.categories.contains(category.id))
         .toList();
-    print(filteredMeals);
     Navigator.of(context).push(
       MaterialPageRoute(
         builder: (ctx) => MealsScreen(
