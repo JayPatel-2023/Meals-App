@@ -41,7 +41,7 @@ class FilterScreen extends ConsumerWidget {
 
           // lactose Filter
           SwitchListTile(
-            value:activeFilters[Filter.lactoseFree]!,
+            value: activeFilters[Filter.lactoseFree]!,
             onChanged: (isChecked) {
               ref
                   .read(filtersProvider.notifier)
@@ -91,7 +91,7 @@ class FilterScreen extends ConsumerWidget {
           SwitchListTile(
             value: activeFilters[Filter.vegan]!,
             onChanged: (isChecked) {
-             ref
+              ref
                   .read(filtersProvider.notifier)
                   .setFilter(Filter.vegan, isChecked);
             },
