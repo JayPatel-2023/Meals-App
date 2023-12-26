@@ -61,8 +61,7 @@ class _TabsScreenState extends State<TabsScreen> {
       );
 
       setState(() {
-        _selectedFilters = result ??
-            kInitialFilters; // handle coditional fallback value if result = null
+        _selectedFilters = result ?? kInitialFilters; // handle coditional fallback value if result = null
       });
     }
   }
