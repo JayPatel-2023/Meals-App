@@ -5,7 +5,6 @@ import 'package:meals/Pages/filters.dart';
 import 'package:meals/Pages/meals.dart';
 import 'package:meals/services/riverpod/favorites_provider.dart';
 import 'package:meals/services/riverpod/filters_provider.dart';
-import 'package:meals/services/riverpod/meals_provider.dart';
 import 'package:meals/widgets/main_drawer.dart';
 
 const kInitialFilters = {
@@ -24,28 +23,6 @@ class TabsScreen extends ConsumerStatefulWidget {
 
 class _TabsScreenState extends ConsumerState<TabsScreen> {
   int _selectedPageIndex = 0;
-  // final List<Meal> _favoriteMeals = [];
-  // Map<Filter, bool> _selectedFilters = kInitialFilters;
-
-  // void _showInfoMessage(String message) {
-  //   ScaffoldMessenger.of(context).clearSnackBars();
-  //   ScaffoldMessenger.of(context).showSnackBar(SnackBar(content: Text('s')));
-  // }
-
-  // void _toggleMealFavoriteStatus(Meal meal) {
-  //   final isExisting = _favoriteMeals.contains(meal);
-  //   if (isExisting) {
-  //     setState(() {
-  //       _favoriteMeals.remove(meal);
-  //     });
-  //     _showInfoMessage('Meal is no longer a favorite.');
-  //   } else {
-  //     setState(() {
-  //       _favoriteMeals.add(meal);
-  //     });
-  //     _showInfoMessage('Marked as a favorite!');
-  //   }
-  // }
 
   void _selectPage(int index) {
     setState(() {
@@ -62,38 +39,19 @@ class _TabsScreenState extends ConsumerState<TabsScreen> {
               const FilterScreen(), //  FilterScreen(currentFilters: _selectedFilters)),
         ),
       );
-
-      // setState(() {
-      //   _selectedFilters = result ??
-      //       kInitialFilters; // handle coditional fallback value if result = null
-      // });
     }
   }
 
   @override
   Widget build(BuildContext context) {
-    final meals = ref.watch(mealsProvider);
-    final activeFilters = ref.watch(filtersProvider);
-    final availableMeals = meals.where((meal) {
-      if (activeFilters[Filter.glutenFree]! && !meal.isGlutenFree) return false;
-      if (activeFilters[Filter.lactoseFree]! && !meal.isLactoseFree) return false;
-      if (activeFilters[Filter.vegetarian]! && !meal.isVegetarian) return false;
-      if (activeFilters[Filter.vegan]! && !meal.isVegan) return false;
+    final availableMeals = ref.watch(filteredMealsProvider);
 
-      return true;
-    }).toList();
-
-    Widget activePage = CategoriesScreen(
-        // onToggleFavorites: _toggleMealFavoriteStatus,
-        availableMeals: availableMeals);
+    Widget activePage = CategoriesScreen(availableMeals: availableMeals);
     var activePageTitle = 'Categories';
 
     if (_selectedPageIndex == 1) {
       final favoriteMeals = ref.watch(favoriteMealsProvider);
-      activePage = MealsScreen(
-        meals: favoriteMeals,
-        // onToggleFavorites: _toggleMealFavoriteStatus
-      );
+      activePage = MealsScreen(meals: favoriteMeals);
       activePageTitle = 'Favorites';
     }
 
